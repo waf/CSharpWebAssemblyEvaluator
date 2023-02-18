@@ -1,0 +1,41 @@
+﻿@layout MainLayout
+@inject NavigationManager navigationManager
+@inject IJSRuntime jsRuntime
+@inject HttpClient http
+@page "/"
+
+<div>
+    <textarea @bind="Input" spellcheck="false"></textarea>
+    <button @onclick="RunCode">Run Code</button>
+    <pre class="output">@Output</pre>
+    <pre class="error">@Error</pre>
+</div>
+
+@functions {
+
+    public string Input { get; set; } = @"// edit me!
+for(var i = 0; i < 10; i++)
+{
+    Console.WriteLine(i);
+}
+";
+    public string Output { get; set; } = "";
+    public string Error { get; set; } = "";
+
+    public CSharpEvaluator eval;
+
+    private async Task RunCode()
+    {
+        var result = await eval.Run(Input);
+        Output = string.Join("<br>", result.Output);
+        Error = string.Join("<br>", result.Error);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        eval = new CSharpEvaluator(http);
+        await eval.DownloadAssemblyReferencesAsync();
+        // warmup
+        _ = eval.Run("""Console.WriteLine("Hello World");""");
+    }
+}

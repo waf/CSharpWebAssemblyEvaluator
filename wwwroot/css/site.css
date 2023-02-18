@@ -1,0 +1,40 @@
+﻿* {
+    box-sizing: border-box;
+    font-size: inherit;
+    margin: 0;
+}
+
+/* fonts */
+#app {
+    font-size: 14pt;
+    font-family: "Segoe UI", Candara, "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+}
+
+pre, textarea {
+    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+}
+
+/* layout and color */
+body {
+    background-color: #65b7db;
+}
+
+#app {
+    width: 600px;
+    margin: 0 auto;
+}
+
+textarea {
+    width: 100%;
+    margin: 18px 0 0 0;
+    height: 200px;
+}
+
+button {
+    width: 100%;
+    margin: 18px 0;
+}
+
+pre {
+    margin: 0;
+}

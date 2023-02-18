@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "CSharpWebAssemblyEvaluator": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:54194"
+    }
+  }
+}
