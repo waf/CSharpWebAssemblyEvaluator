@@ -41,7 +41,7 @@ jobs:
       run: touch release/wwwroot/.nojekyll
       
     - name: Commit wwwroot to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@c7339456e911d29a4333ab35b9e562a7e176be88
+      uses: JamesIves/github-pages-deploy-action@ba1486788b0490a235422264426c45848eac35c6
       with:
         folder: release/wwwroot # The folder the action should deploy. 
     
