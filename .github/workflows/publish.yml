@@ -1,0 +1,47 @@
+name: Publish to GitHub pages
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+  
+jobs:
+
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@926f4420227aaf87acf2840f360e4f2475f13b3b
+      with:
+        dotnet-version: 7.0.x
+        
+    - name: Publish .NET Project
+      run: dotnet publish CSharpWebAssemblyEvaluator.csproj -c Release -o release --nologo
+    
+    # the rest of the steps are from https://github.com/Swimburger/BlazorGitHubPagesDemo/blob/master/.github/workflows/main.yml
+    
+    # changes the base-tag in index.html from '/' to 'CSharpWebAssemblyEvaluator' to match GitHub Pages repository subdirectory.
+    - name: Change base-tag in index.html from / to CSharpWebAssemblyEvaluator
+      run: sed -i 's/<base href="\/" \/>/<base href="\/CSharpWebAssemblyEvaluator\/" \/>/g' release/wwwroot/index.html
+      
+    # copy index.html to 404.html to serve the same file when a file is not found
+    - name: copy index.html to 404.html
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
+      
+    - name: Commit wwwroot to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@c7339456e911d29a4333ab35b9e562a7e176be88
+      with:
+        folder: release/wwwroot # The folder the action should deploy. 
+    
